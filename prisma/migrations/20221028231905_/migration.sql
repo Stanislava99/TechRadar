@@ -1,7 +1,7 @@
 /*
   Warnings:
 
-  - You are about to drop the `Note` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `Note` table.tsx. If the table.tsx is not empty, all the data it contains will be lost.
 
 */
 -- DropTable
