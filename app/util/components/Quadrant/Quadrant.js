@@ -117,7 +117,9 @@ function Quadrant(props) {
                         <Item
                             rotateDegrees={-props.rotateDegrees}
                             key={index}
-                            data={value}/>
+                            data={value}
+                            selectedTechnology={props.selectedTechnology}
+                        />
                     )
                 }
             )}
@@ -135,7 +137,8 @@ Quadrant.propTypes = {
     points: PropTypes.array.isRequired,
     angle: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    radiusDiminish: PropTypes.number
+    radiusDiminish: PropTypes.number,
+    selectedTechnology: PropTypes.string
 };
 
 export default Quadrant;
