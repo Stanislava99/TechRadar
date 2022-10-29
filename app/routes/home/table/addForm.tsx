@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import {Form, useActionData} from "@remix-run/react";
+import {Form, Link, useActionData} from "@remix-run/react";
 import {ActionFunction} from "@remix-run/server-runtime";
 import {getUserId} from "~/session.server";
 import {addTechnology, addTechnologyToWhereToTryTable} from "~/models/technology.server";
@@ -65,7 +65,7 @@ export default function AddForm() {
                 className={inputClassName}
               />
             </label>
-            <h3 className="lock text-gray-700 text-sm font-bold mb-2">Where to try?</h3>
+            <h3 className="lock text-gray-700 text-sm font-bold mb-1 mt-2">Where to try?</h3>
             <ul
               className="items-center w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
               <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
@@ -85,11 +85,40 @@ export default function AddForm() {
                 </div>
               </li>
             </ul>
+            <div className="w-full  mb-6 md:mb-0">
+              <label className="block tracking-wide text-sm font-bold font-medium text-gray-600 mt-2 mb-1"
+                     htmlFor="grid-state">
+                Type
+              </label>
+              <div className="relative">
+                <select
+                  className="block appearance-none w-full bg-gray-200 border border-gray-200 font-small text-gray-600 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  id="type">
+                  <option>Adopt</option>
+                  <option>Trial</option>
+                  <option>Assess</option>
+                  <option>Hold</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
           </p>
-          <button type="submit"
-                  className="mt-2 ß text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-            Save
-          </button>
+          <Link to="/home/table">
+            <button type="submit"
+                    className="mt-4 ß text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 ">
+              Save
+            </button>
+          </Link>
+          <Link to="/home/table">
+            <button
+                    className="mt-4 ß text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 ">
+              Close
+            </button>
+          </Link>
         </Form>
       </div>
   );

@@ -24,6 +24,7 @@ export default function Table() {
         <h2 className="text-5xl"> Radar Table</h2>
         <p className="underline underline-offset- decoration-sky-500">Take a look at the trending technologies </p>
       </div>
+
       <div className="m-12">
         <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
           <table className="w-full text-xs text-center text-gray-700 dark:text-gray-400">
