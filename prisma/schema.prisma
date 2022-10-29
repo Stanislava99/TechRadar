@@ -14,7 +14,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  password Password?
+  password   Password?
+  Technology Technology[]
 }
 
 model Password {
@@ -24,3 +25,35 @@ model Password {
   userId String @unique
 }
 
+model WhereToTryTechnology {
+  id String @id @default(cuid())
+
+  whereToTry String // CHECK IN (CODE_CAMP, INTERNS, PROJECT)
+
+  technology   Technology @relation(fields: [technologyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  technologyId String
+}
+
+model Technology {
+  id String @id @default(cuid())
+
+  entryDate        DateTime @updatedAt
+  linkToTechnology String
+
+  enteredBy User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId    String
+
+  description String
+
+  whereToTryTechnology WhereToTryTechnology[]
+
+  assesmentResult   TechnologyAssesmentResult @relation(fields: [assesmentResultId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  assesmentResultId String
+}
+
+model TechnologyAssesmentResult {
+  id String @id @default(cuid())
+
+  // fill out eventually
+  Technology Technology[]
+}
