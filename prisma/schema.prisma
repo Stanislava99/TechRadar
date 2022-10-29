@@ -38,7 +38,7 @@ model Technology {
   id String @id @default(cuid())
 
   entryDate        DateTime @updatedAt
-  technologyName String
+  name String
   linkToTechnology String
 
   enteredBy User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
