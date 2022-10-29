@@ -62,7 +62,14 @@ export default function Index() {
             </div>
           </div>
         </div>
-
+        <div className="mx-auto mt-16 max-w-7xl text-center">
+          <Link
+                    to="/radar"
+                    className="text-xl text-blue-600 underline"
+          >
+            Radar
+          </Link>
+        </div>
         <div className="mx-auto max-w-7xl py-2 px-4 sm:px-6 lg:px-8">
           <div className="mt-6 flex flex-wrap justify-center gap-8">
             {[
