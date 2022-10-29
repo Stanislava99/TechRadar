@@ -24,6 +24,8 @@ function Item(props) {
         setIsHovered(!isHovered);
     };
 
+    const fontWight = props.data.name === props.selectedTechnology ? "bold" : "lighter"
+    const fontSize = props.data.name === props.selectedTechnology ? itemFontSize + 6 : itemFontSize
     return (
         <ItemWrapper
             className="blip"
@@ -33,16 +35,17 @@ function Item(props) {
             onMouseLeave={onMouseToggle}
             ref={ref}
             style={{
-                opacity: isHovered ? '1.0' : '0.7',
+                opacity: '1.0',
                 fontWeight: isHovered ? "Bold" : "Normal"
             }}
         >
             <circle r={"4px"}/>
             <text
+                fontWeight={fontWight}
                 className={"name"}
                 dx={"7px"}
                 dy={"7px"}
-                fontSize={itemFontSize}
+                fontSize={fontSize}
                 fontFamily={fontFamily}
             >
                 {isHovered ? props.data.name : shortName}
@@ -53,7 +56,8 @@ function Item(props) {
 
 Item.propTypes = {
     rotateDegrees: PropTypes.number.isRequired,
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
+    selectedTechnology: PropTypes.string
 };
 
 export default Item;

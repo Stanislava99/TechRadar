@@ -116,7 +116,7 @@ function Radar(props) {
             const margin = 0.2;
             const ringIndex = rings.indexOf(entry.ring);
             const posStart = radiusArray[ringIndex] + (1 / ringCount * margin);
-            const posLength = Math.random() * ((radiusArray[ringIndex + 1] - radiusArray[ringIndex]) - (2 * (1 / ringCount * margin)));
+            const posLength = 1 * ((radiusArray[ringIndex + 1] - radiusArray[ringIndex]) - (2 * (1 / ringCount * margin)));
             return posStart + posLength;
         };
 
@@ -175,7 +175,7 @@ function Radar(props) {
         const radiusArray = calculateRadiusDiminish(props.rings.length);
 
         const randomPosition = getPositionByQuadrant(radiusArray);
-        const positionAngle = Math.random();
+        const positionAngle = 0.1 + collisionCount / 100;
         const ringWidth = width / 2;
 
         //theta is the position in the quadrant
@@ -229,6 +229,7 @@ function Radar(props) {
                                     angle={angle}
                                     name={value}
                                     radiusDiminish={radiusDiminishConstant}
+                                    selectedTechnology={props.selectedTechnology}
                                 />
                             </g>)
                     })}
@@ -247,7 +248,8 @@ Radar.propTypes = {
     fontSize: PropTypes.number,
     itemFontSize: PropTypes.number,
     colorScaleIndex: PropTypes.number,
-    radiusDiminish: PropTypes.number
+    radiusDiminish: PropTypes.number,
+    selectedTechnology: PropTypes.string
 };
 
 export default Radar;
