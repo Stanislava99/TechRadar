@@ -5,9 +5,9 @@ import {ActionFunction} from "@remix-run/server-runtime";
 import {getUserId} from "~/session.server";
 import {addTechnology, addTechnologyToWhereToTryTable} from "~/models/technology.server";
 import {redirect} from "@remix-run/node";
+import {prisma} from "~/db.server";
 
 const inputClassName = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ';
-
 
 export const action: ActionFunction = async ({request}) => {
   const formData = await request.formData();
@@ -15,17 +15,19 @@ export const action: ActionFunction = async ({request}) => {
   const name = formData.get("name");
   const linkToTechnology = formData.get("link");
   const description = formData.get("description");
-  const whereToTry = formData.get("whereToTry");
+  const whereToTry = formData.getAll("whereToTry");
 
-  const userId = getUserId(request);
+  const userId = await getUserId(request);
+  const user = await prisma.user.findUnique({where: {id: userId}});
   const type = "TOOLS";
   // @ts-ignore
-  const newTechnology = await addTechnology({name, linkToTechnology,userId,description,type});
-  await addTechnologyToWhereToTryTable(whereToTry,newTechnology.id);
+  const newTechnology = await addTechnology({name, linkToTechnology, enteredBy: {
+    connect: {id: userId}
+    }, description, type});
+  await addTechnologyToWhereToTryTable(whereToTry, newTechnology.id);
   return redirect("/home/table");
 
 };
-
 
 export default function AddForm() {
   const errors = useActionData();
@@ -39,7 +41,7 @@ export default function AddForm() {
               Technology:{" "}
               <input
                 type="text"
-                name="technology"
+                name="name"
                 className={inputClassName}
               />
             </label>
@@ -68,7 +70,7 @@ export default function AddForm() {
               className="items-center w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
               <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                 <div className="flex items-center pl-3">
-                  <input id="CODE_CAMP" type="checkbox" value=""
+                  <input id="CODE_CAMP" name="whereToTry" type="checkbox" value="CODE_CAMP"
                          className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
                   <label htmlFor="CODE_CAMP"
                          className="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Code Camp</label>
@@ -76,7 +78,7 @@ export default function AddForm() {
               </li>
               <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                 <div className="flex items-center pl-3">
-                  <input id="INTERNS" type="checkbox" value=""
+                  <input id="INTERNS" type="checkbox" name="whereToTry" value="INTERNS"
                          className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
                   <label htmlFor="INTERNS"
                          className="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Interns</label>

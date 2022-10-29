@@ -40,7 +40,7 @@ export async function getWhereToTry(id: string){
 }
 
 // @ts-ignore
-export async function addTechnology (technology: Pick<Technology,"name" | "linkToTechnology" | "userId" | "description" | "type" >) {
+export async function addTechnology(technology) {
   // @ts-ignore
   return prisma.technology.create({data: technology});
 }
