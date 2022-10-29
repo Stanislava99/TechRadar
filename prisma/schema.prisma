@@ -48,8 +48,11 @@ model Technology {
 
   whereToTryTechnology WhereToTryTechnology[]
 
-  assessmentResult   TechnologyAssessmentResult @relation(fields: [assessmentResultId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  assessmentResultId String
+  assesmentResult   TechnologyAssessmentResult @relation(fields: [assesmentResultId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  assesmentResultId String
+
+  type String // check in [tools, languages, platforms, techniques]
+  currentViabilityLevel String // check in [hold, adopt, assess, trial]
 }
 
 model TechnologyAssessmentResult {
