@@ -52,7 +52,7 @@ model Technology {
   assesmentResultId String
 
   type String // check in [tools, languages, platforms, techniques]
-  currentViabilityLevel String // check in [hold, adopt, assess, trial]
+  currentViabilityLevel String @default("HOLD") // check in [hold, adopt, assess, trial]
 }
 
 model TechnologyAssessmentResult {

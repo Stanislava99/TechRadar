@@ -33,7 +33,8 @@ async function seed() {
       linkToTechnology: "https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor",
       userId: user.id,
       description: "Build client apps with subset of the .NET framework. The app compiles to web assembly. There are also a lot of open source widget libraries that are available. Can be distributed as server side rendered content (Blazor Server) or PWA (works entirely in browser and just consumes REST API).\n",
-      assessmentResultId: "1"
+      assesmentResultId: "1",
+      type: "LANGUAGES"
     },
     {
       id: "2",
@@ -42,7 +43,8 @@ async function seed() {
       linkToTechnology: "https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor",
       userId: user.id,
       description: "Build client apps with subset of the .NET framework. The app compiles to web assembly. There are also a lot of open source widget libraries that are available. Can be distributed as server side rendered content (Blazor Server) or PWA (works entirely in browser and just consumes REST API).\n",
-      assessmentResultId: "1"
+      assesmentResultId: "1",
+      type: "LANGUAGES"
     }
   ];
 
