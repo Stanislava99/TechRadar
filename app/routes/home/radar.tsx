@@ -6,9 +6,9 @@ export default function RadarContainer() {
     quadrants: ['tools', 'techniques', 'platforms', 'languages'],
     data: [
       {
-        name: 'VISUAL STUDIO CODE',
+        name: 'SPRING BOOT',
         quadrant: 'tools',
-        ring: "hold"
+        ring: "adpot"
       },
       {
         name: 'TypeScript',
