@@ -20,13 +20,13 @@ export default function Table() {
   // @ts-ignore
   return (
     <div>
-      <div className="m-10">
+      <div className="m-12">
         <h2 className="text-5xl"> Radar Table</h2>
         <p>Take a look at the trending technologies </p>
       </div>
-      <div className="m-10">
+      <div className="m-12">
         <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <table className="w-full text-xs text-center text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="py-3 px-6">
@@ -47,9 +47,7 @@ export default function Table() {
               <th scope="col" className="py-3 px-6">
                 Where to try
               </th>
-              <th scope="col" className="py-3 px-6">
-                Results
-              </th>
+
               <th scope="col" className="py-3 px-6">
 
               </th>
@@ -61,7 +59,7 @@ export default function Table() {
                 <th scope="row" className="py-2 px-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   {technology.entryDate}
                 </th>
-                <td className="py-4 px-6">
+                <td className="py-4 px-6 text-center">
                   {technology.name}
                 </td>
                 <td className="py-4 px-6">
@@ -70,14 +68,28 @@ export default function Table() {
                 <td className="py-4 px-6">
                   {technology.userId}
                 </td>
-                <td className="py-4 px-1 text-center">
+                <td className="py-2 px sm:font-sm text-center">
                   {technology.description}
                 </td>
-                <td className="py-4 px-6">
-                  {technology.whereToTryList}
-                </td>
-                <td className="py-4 px-6">
-                  {technology.assesmentResultId}
+                <td className="py-4 px-1">
+                  {technology.whereToTryList.map((where: string) => {
+                    if ("CODE_CAMP" == where.toString()) {
+                      const code_camp = "Code Camp"
+                      return (
+                        <div className="border-solid border-2 border-color: rgb(219 39 119) bg-lime-200	 text-center mb-2">
+                          <p>{code_camp}</p>
+                        </div>
+                      )
+                    }
+                    else {
+                      const intents = "Inters"
+                      return (
+                        <div className="border-solid border-2 border-color: rgb(234 179 8) bg-blue-100 text-center">
+                          <p>{intents}</p>
+                        </div>
+                      )
+                    }
+                  })}
                 </td>
                 <td className="py-4 px-6">
                   <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
