@@ -1,11 +1,23 @@
 // @flow
 import * as React from 'react';
+import {getTechnologies, getWhereToTry} from "~/models/technology.server";
+import {json, redirect} from "@remix-run/node";
+import {Link, Outlet, useLoaderData, useNavigate} from "@remix-run/react";
 
-type Props = {
-
+type LoaderData = {
+  technologies: Awaited<ReturnType<any>>,
 };
 
-export default function Table(props: Props) {
+export const loader = async (id: string) => {
+  console.log("loader")
+  return json<LoaderData>({
+    technologies: await getTechnologies()
+  });
+};
+
+export default function Table() {
+  const {technologies} = useLoaderData() as unknown as LoaderData;
+  // @ts-ignore
   return (
     <div>
       <div className="m-10">
@@ -44,94 +56,47 @@ export default function Table(props: Props) {
             </tr>
             </thead>
             <tbody>
-            <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-              <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                02 Jun 2022
-              </th>
-              <td className="py-4 px-6">
-                Blazor
-              </td>
-              <td className="py-4 px-6">
-                https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor
-              </td>
-              <td className="py-4 px-6">
-                Zdravko Nikolovski
-              </td>
-              <td className="py-4 px-6">
-                Successor to Xamarin.Forms, but supports more platforms. Should be explored if the drawbacks of Xamarin are still there or not.
-              </td>
-              <td className="py-4 px-6">
-                CodeCamp / Interns
-              </td>
-              <td className="py-4 px-6">
-                CODE CAMP
-                16 Sep 2022 SNF: Used in code camp (CodeCamp CH 2022 Fall - Web application with Blazor Webassembly).
-              </td>
-              <td className="py-4 px-6">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-              </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-              <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                02 Jun 2022
-              </th>
-              <td className="py-4 px-6">
-                Blazor
-              </td>
-              <td className="py-4 px-6">
-                https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor
-              </td>
-              <td className="py-4 px-6">
-                Zdravko Nikolovski
-              </td>
-              <td className="py-4 px-6">
-                Successor to Xamarin.Forms, but supports more platforms. Should be explored if the drawbacks of Xamarin are still there or not.
-              </td>
-              <td className="py-4 px-6">
-                CodeCamp / Interns
-              </td>
-              <td className="py-4 px-6">
-                CODE CAMP
-                16 Sep 2022 SNF: Used in code camp (CodeCamp CH 2022 Fall - Web application with Blazor Webassembly).
-              </td>
-              <td className="py-4 px-6">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-              </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-              <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                02 Jun 2022
-              </th>
-              <td className="py-4 px-6">
-                Blazor
-              </td>
-              <td className="py-4 px-6">
-                https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor
-              </td>
-              <td className="py-4 px-6">
-                Zdravko Nikolovski
-              </td>
-              <td className="py-4 px-6">
-                Successor to Xamarin.Forms, but supports more platforms. Should be explored if the drawbacks of Xamarin are still there or not.
-              </td>
-              <td className="py-4 px-6">
-                CodeCamp / Interns
-              </td>
-              <td className="py-4 px-6">
-                CODE CAMP
-                16 Sep 2022 SNF: Used in code camp (CodeCamp CH 2022 Fall - Web application with Blazor Webassembly).
-              </td>
-              <td className="py-4 px-6">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-              </td>
-            </tr>
+            {technologies.map((technology) => (
+              <tr key={technology.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                <th scope="row" className="py-2 px-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {technology.entryDate}
+                </th>
+                <td className="py-4 px-6">
+                  {technology.name}
+                </td>
+                <td className="py-4 px-6">
+                  {technology.linkToTechnology}
+                </td>
+                <td className="py-4 px-6">
+                  {technology.userId}
+                </td>
+                <td className="py-4 px-1 text-center">
+                  {technology.description}
+                </td>
+                <td className="py-4 px-6">
+                  {technology.whereToTryList}
+                </td>
+                <td className="py-4 px-6">
+                  {technology.assesmentResultId}
+                </td>
+                <td className="py-4 px-6">
+                  <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+              </tr>
+            )) }
+
+
             </tbody>
           </table>
         </div>
+
         <button type="button"
                 className="mt-2 ß text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-          Add new
+         <Link to="addForm">
+             Add new
+         </Link>
         </button>
+        <Outlet/>
       </div>
 
     </div>
