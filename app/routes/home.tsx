@@ -6,7 +6,7 @@ type Props = {
 
 };
 
-export default function Navbar(props: Props) {
+export default function Home(props: Props) {
   return (
     <div>
       <Link to="radar" className="text-red-600 underline">
