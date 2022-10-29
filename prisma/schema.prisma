@@ -37,7 +37,7 @@ model WhereToTryTechnology {
 model Technology {
   id String @id @default(cuid())
 
-  entryDate        DateTime @updatedAt
+  entryDate        DateTime @default(now())
   name String
   linkToTechnology String
 

@@ -1,6 +1,6 @@
 import Radar from '~/util/components/Radar/Radar';
 import {json} from "@remix-run/node";
-import {getAllTechnologies} from "~/models/technology.server";
+import {getTechnologies} from "~/models/technology.server";
 import {useLoaderData} from "@remix-run/react";
 
 import type { Technology } from '@prisma/client';
@@ -15,7 +15,7 @@ type LoaderData = {
 
 export const loader = async () => {
   return json<LoaderData>({
-    technologies: await getAllTechnologies(),
+    technologies: await getTechnologies(),
   });
 };
 
