@@ -16,11 +16,11 @@ export const StyledInput = styled.input`
   padding: ${({ leftIcon, iconBoxSize }) =>
     leftIcon ? `10px ${iconBoxSize}` : "10px 20px"};
   height: ${({ inputHeight }) => inputHeight};
-  border: 5px solid black !important;
+  border: 3px solid black !important;
   border-radius: 5px;
   color: ${({ inputFontColor }) => inputFontColor};
   background-color: ${({ inputBackgroundColor }) => inputBackgroundColor};
-  width: 100%;
+  width: 100% !important;
 
   &:focus {
     outline: none;

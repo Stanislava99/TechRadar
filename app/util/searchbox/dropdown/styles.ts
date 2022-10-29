@@ -4,7 +4,7 @@ export const StyledDropdown = styled.div`
   margin: 10px 0 0;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 0, rgba(0, 0, 0, 0.1) 0px 4px 11px;
-  border-radius: 5px;
+  border-radius: 2px;
   position: absolute;
   > ul {
     list-style-type: none;

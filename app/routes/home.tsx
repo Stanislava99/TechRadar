@@ -7,9 +7,9 @@ export default function Home() {
   return (
     <div >
       <nav className="border border-gray-300 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
-        <div className="container flex flex-wrap justify-between items-center mx-auto">
+        <div className="container flex flex-wrap justify-between items-center">
           <a  className="flex items-center">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ05f9YsTCyTo-4UwmZRJb3LLtJ58WuKP7B4daI56QWzA&s" className="mr-3 h-6 sm:h-9" alt="Tech Radar"/>
+            <img style={{height: "100px"}} src="/logo.png" className="mr-3 h-6 sm:h-9" alt="Tech Radar"/>
           </a>
 
           <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">

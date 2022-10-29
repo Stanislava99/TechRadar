@@ -1,4 +1,4 @@
-import {Link, Outlet} from "@remix-run/react";
+import {Link} from "@remix-run/react";
 
 import { useOptionalUser } from "~/utils";
 import * as React from "react";
@@ -9,22 +9,15 @@ export default function Index() {
     <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
       <div className="relative sm:pb-16 sm:pt-8">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">
-            <div className="absolute inset-0">
-              <div className="absolute inset-0 bg-cyan-600 mix-blend-multiply" />
-            </div>
             <div className="relative px-4 pt-16 pb-8 sm:px-6 sm:pt-24 sm:pb-14 lg:px-8 lg:pb-20 lg:pt-32">
-              <h1 className="text-center text-6xl font-extrabold tracking-tight sm:text-8xl lg:text-9xl">
-                <span className="block uppercase text-gray-50 drop-shadow-md">
-                  Tech Radar
-                </span>
-              </h1>
-              <p className="mx-auto mt-6 max-w-lg text-center text-xl text-neutral-400 sm:max-w-3xl">
+              <img src="/logo.png" alt="tech radar logo here" />
+              <p style={{color: "black"}} className="mx-auto mt-6 max-w-lg text-center text-xl text-neutral-400 sm:max-w-3xl">
                 Track latest technology trends.
               </p>
               <div className="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center">
                 {user ? (
                   <Link
+                    style={{background: "black", color: "white"}}
                     to="/home/table"
                     className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-neutral-400 shadow-sm hover:bg-yellow-50 sm:px-8"
                   >
@@ -48,7 +41,7 @@ export default function Index() {
                 )}
               </div>
             </div>
-          </div>
+
         </div>
       </div>
     </main>
