@@ -1,31 +1,39 @@
-import Radar from '../../util/components/Radar/Radar';
+import Radar from '~/util/components/Radar/Radar';
+import {json} from "@remix-run/node";
+import {getAllTechnologies} from "~/models/technology.server";
+import {useLoaderData} from "@remix-run/react";
+
+import type { Technology } from '@prisma/client';
+
+type LoaderData = {
+  technologies: Array<Technology>;
+};
+
+export const loader = async () => {
+  return json<LoaderData>({
+    technologies: await getAllTechnologies(),
+  });
+};
 
 export default function RadarContainer() {
+  const { technologies } = useLoaderData() as LoaderData;
   const setup = {
-    rings: ['adopt', 'trial', 'assess', 'hold'],
-    quadrants: ['tools', 'techniques', 'platforms', 'languages'],
-    data: [
-      {
-        name: 'SPRING BOOT',
-        quadrant: 'tools',
-        ring: "adpot"
-      },
-      {
-        name: 'TypeScript',
-        quadrant: 'languages',
-        ring: "trial"
-      },
-      {
-        name: 'InteliJ',
-        quadrant: 'tools',
-        ring: "adopt"
-      }
-    ]
+    rings: ['ADOPT', 'TRIAL', 'ASSESS', 'HOLD'],
+    quadrants: ['TOOLS', 'TECHNIQUES', 'PLATFORMS', 'LANGUAGES'],
+    data: technologies.map((technology: Technology) => {
+      return {
+        name: technology.name,
+        quadrant: technology.type,
+        ring: technology.currentViabilityLevel
+      };
+    }),
   };
   return (
-    <main>
-      <div>Netcetera Tech Radar</div>
-      <Radar {...setup} />
-    </main>
+    <div>
+      <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>Tech Radar V2</div>
+      <div style={{display: "flex", flexDirection: "row", justifyContent: "center", marginTop: "6%"}}>
+        <Radar {...setup} />
+      </div>
+    </div>
   );
 }
