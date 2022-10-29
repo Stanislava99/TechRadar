@@ -4,6 +4,7 @@ import {getAllTechnologies} from "~/models/technology.server";
 import {useLoaderData} from "@remix-run/react";
 
 import type { Technology } from '@prisma/client';
+import RadarLegend from "~/routes/home/RadarLegend";
 
 type LoaderData = {
   technologies: Array<Technology>;
@@ -30,10 +31,10 @@ export default function RadarContainer() {
   };
   return (
     <div>
-      <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>Tech Radar V2</div>
-      <div style={{display: "flex", flexDirection: "row", justifyContent: "center", marginTop: "6%"}}>
+      <div style={{display: "flex", flexDirection: "row", justifyContent: "center", marginTop: "1%"}}>
         <Radar {...setup} />
       </div>
+      <RadarLegend />
     </div>
   );
 }
