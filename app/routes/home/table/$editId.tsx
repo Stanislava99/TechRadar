@@ -146,6 +146,14 @@ export default function AddForm() {
                        className="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Interns</label>
               </div>
             </li>
+            <li className="w-full dark:border-gray-600">
+              <div className="flex items-center pl-3">
+                <input id="PROJECT" type="checkbox" name="whereToTry" value="PROJECT"
+                       className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
+                <label htmlFor="PROJECT"
+                       className="py-3 ml-2 mr-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Project</label>
+              </div>
+            </li>
           </ul>
           <div className="w-full  mb-6 md:mb-0">
             <label className="block tracking-wide text-sm font-bold font-medium text-gray-600 mt-2 mb-1"
