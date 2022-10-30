@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Form, Link, useActionData, useLoaderData} from "@remix-run/react";
 import {ActionFunction, LoaderFunction} from "@remix-run/server-runtime";
 import {getUserId} from "~/session.server";
-import {addTechnology, addTechnologyToWhereToTryTable, getTechnology} from "~/models/technology.server";
+import {addTechnologyToWhereToTryTable, editTechnology, getTechnology} from "~/models/technology.server";
 import {json, redirect} from "@remix-run/node";
 import {prisma} from "~/db.server";
 
@@ -11,20 +11,20 @@ const inputClassName = 'shadow appearance-none border rounded w-full py-2 px-3 t
 
 export const action: ActionFunction = async ({request}) => {
   const formData = await request.formData();
-
   const name = formData.get("name");
+  const id = formData.get("id");
   const linkToTechnology = formData.get("link");
   const description = formData.get("description");
   const whereToTry = formData.getAll("whereToTry");
 
   const userId = await getUserId(request);
   const user = await prisma.user.findUnique({where: {id: userId}});
-  const type = "TOOLS";
+  const type = "LANGUAGES";
   // @ts-ignore
-  const newTechnology = await addTechnology({name, linkToTechnology, enteredBy: {
+  const editedTechnology = await editTechnology({id, name, linkToTechnology, enteredBy: {
       connect: {id: userId}
     }, description, type});
-  await addTechnologyToWhereToTryTable(whereToTry, newTechnology.id);
+  await addTechnologyToWhereToTryTable(whereToTry, editedTechnology.id);
   return redirect("/home/table");
 
 };
@@ -35,9 +35,13 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 
 export default function AddForm() {
-  const errors = useActionData();
-  const  {technology} = useLoaderData();
+  const  { technology } = useLoaderData();
   const [technologyName, setTechnologyName] = React.useState(technology.name);
+
+  React.useEffect(() => {
+    setTechnologyName(technology.name)
+  }, [technology.id, technology.name]);
+
   // @ts-ignore
   return (
     <div className="w-full max-w-xs">
@@ -47,6 +51,13 @@ export default function AddForm() {
       <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="post">
         <p>
           <label className="lock text-gray-700 text-sm font-bold mb-2">
+            <input
+              style={{visibility: "hidden"}}
+              type="text"
+              name="id"
+              className={inputClassName}
+              value={technology.id}
+            />
             Technology:{" "}
             <input
               type="text"
@@ -121,18 +132,14 @@ export default function AddForm() {
             </div>
           </div>
         </p>
-        <Link to="/home/table">
-          <button type="submit"
-                  className="mt-4 ß text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 ">
-            Update
-          </button>
-        </Link>
-        <Link to="/home/table">
-          <button
-            className="mt-4 ß text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 ">
-            Close
-          </button>
-        </Link>
+        <button type="submit"
+                className="mt-4 ß text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 ">
+          Update
+        </button>
+        <button
+          className="mt-4 ß text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 ">
+          Close
+        </button>
       </Form>
     </div>
   );

@@ -45,6 +45,12 @@ export async function addTechnology(technology) {
   return prisma.technology.create({data: technology});
 }
 
+// @ts-ignore
+export async function editTechnology(technology) {
+  // @ts-ignore
+  return prisma.technology.update({data: technology, where: {id: technology.id}});
+}
+
 export async function addTechnologyToWhereToTryTable(technologiesArray: Array<string>, technologyId: string) {
   for (const where of technologiesArray){
     const whereToTryTechnology = {
