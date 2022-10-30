@@ -13,15 +13,16 @@ export const action: ActionFunction = async ({request}) => {
   const formData = await request.formData();
   const name = formData.get("name");
   const id = formData.get("id");
+  const currentViabilityLevel = formData.get("currentViabilityLevel");
   const linkToTechnology = formData.get("link");
   const description = formData.get("description");
   const whereToTry = formData.getAll("whereToTry");
+  const type = formData.get("type");
 
   const userId = await getUserId(request);
   const user = await prisma.user.findUnique({where: {id: userId}});
-  const type = "LANGUAGES";
   // @ts-ignore
-  const editedTechnology = await editTechnology({id, name, linkToTechnology, enteredBy: {
+  const editedTechnology = await editTechnology({id, currentViabilityLevel, name, linkToTechnology, enteredBy: {
       connect: {id: userId}
     }, description, type});
   await addTechnologyToWhereToTryTable(whereToTry, editedTechnology.id);
@@ -37,6 +38,9 @@ export const loader: LoaderFunction = async ({ params }) => {
 export default function AddForm() {
   const  { technology } = useLoaderData();
   const [technologyName, setTechnologyName] = React.useState(technology.name);
+  const [selectedCurrentViabilityLevel, setSelectedCurrentViabilityLevel] =
+    React.useState(technology.currentViabilityLevel);
+  const [selectedType, setSelectedType] = React.useState(technology.type);
 
   React.useEffect(() => {
     setTechnologyName(technology.name)
@@ -116,13 +120,41 @@ export default function AddForm() {
             </label>
             <div className="relative">
               <select
-                value={technology.type}
+                value={selectedCurrentViabilityLevel}
                 className="block appearance-none w-full bg-gray-200 border border-gray-200 font-small text-gray-600 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="type">
-                <option>Adopt</option>
-                <option>Trial</option>
-                <option>Assess</option>
-                <option>Hold</option>
+                id="type"
+                name="currentViabilityLevel"
+                onChange={(e) => setSelectedCurrentViabilityLevel(e.target.value)}
+              >
+                <option>ADOPT</option>
+                <option>TRIAL</option>
+                <option>ASSESS</option>
+                <option>HOLD</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div className="w-full  mb-6 md:mb-0">
+            <label className="block tracking-wide text-sm font-bold font-medium text-gray-600 mt-2 mb-1"
+                   htmlFor="grid-state">
+              Type
+            </label>
+            <div className="relative">
+              <select
+                className="block appearance-none w-full bg-gray-200 border border-gray-200 font-small text-gray-600 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="type"
+                name="type"
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+              >
+                <option>LANGUAGES</option>
+                <option>TOOLS</option>
+                <option>PLATFORMS</option>
+                <option>TECHNIQUES</option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -136,10 +168,12 @@ export default function AddForm() {
                 className="mt-4 ß text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 ">
           Update
         </button>
-        <button
-          className="mt-4 ß text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 ">
-          Close
-        </button>
+        <Link to="/home/table">
+          <button
+            className="mt-4 ß text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 ">
+            Close
+          </button>
+        </Link>
       </Form>
     </div>
   );
