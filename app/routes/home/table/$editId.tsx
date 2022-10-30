@@ -61,9 +61,20 @@ export default function AddForm() {
   const [selectedCurrentViabilityLevel, setSelectedCurrentViabilityLevel] =
     React.useState(technology.currentViabilityLevel);
   const [selectedType, setSelectedType] = React.useState(technology.type);
+  const [link, setLink] = React.useState(technology.linkToTechnology);
+  const [description, setDescription] = React.useState(technology.description);
+
 
   React.useEffect(() => {
     setTechnologyName(technology.name)
+  }, [technology.id, technology.name]);
+
+  React.useEffect(() => {
+    setLink(technology.linkToTechnology)
+  }, [technology.id, technology.name]);
+
+  React.useEffect(() => {
+    setDescription(technology.description)
   }, [technology.id, technology.name]);
 
   const errors = useActionData();
@@ -107,7 +118,8 @@ export default function AddForm() {
               type="text"
               name="linkToTechnology"
               className={inputClassName}
-              value={technology.linkToTechnology}
+              onChange={(e) => setLink(e.target.value)}
+              value={link}
             />
           </label>
         </p>
@@ -121,7 +133,8 @@ export default function AddForm() {
               type="text"
               name="description"
               className={inputClassName}
-              value={technology.description}
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
             />
           </label>
           <h3 className="lock text-gray-700 text-sm font-bold mb-1 mt-2">Where to try?</h3>
