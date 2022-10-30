@@ -5,7 +5,6 @@ import {ActionFunction} from "@remix-run/server-runtime";
 import {getUserId} from "~/session.server";
 import {addTechnology, addTechnologyToWhereToTryTable} from "~/models/technology.server";
 import {json, redirect} from "@remix-run/node";
-import {prisma} from "~/db.server";
 
 const inputClassName = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ';
 
@@ -30,7 +29,6 @@ export const action: ActionFunction = async ({request}) => {
   const type = formData.get("type");
 
   const userId = await getUserId(request);
-  const user = await prisma.user.findUnique({where: {id: userId}});
 
   const errors: ActionData = {
     name: name ? null : "Technology name is required",

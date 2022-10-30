@@ -57,6 +57,10 @@ export async function addTechnologyToWhereToTryTable(technologiesArray: Array<st
       whereToTry: where,
       technologyId: technologyId
     }
+    const alreadyExistingTech = await prisma.whereToTryTechnology.findMany({where: {technologyId: technologyId, whereToTry: whereToTryTechnology.whereToTry }});
+    if (alreadyExistingTech.length >= 1) {
+      return;
+    }
     await prisma.whereToTryTechnology.create({data: whereToTryTechnology})
   }
 }
