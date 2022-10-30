@@ -5,6 +5,7 @@ import {ActionFunction, LoaderFunction} from "@remix-run/server-runtime";
 import {getUserId} from "~/session.server";
 import {addTechnologyToWhereToTryTable, editTechnology, getTechnology} from "~/models/technology.server";
 import {json, redirect} from "@remix-run/node";
+import {prisma} from "~/db.server";
 
 const inputClassName = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ';
 
@@ -41,9 +42,11 @@ export const action: ActionFunction = async ({request}) => {
     return json<ActionData>(errors);
   }
 
+  const existingTechnology = await prisma.technology.findUnique({where: {id}})
+  const originator = existingTechnology.userId;
   // @ts-ignore
   const editedTechnology = await editTechnology({id, currentViabilityLevel, name, linkToTechnology, enteredBy: {
-      connect: {id: userId}
+      connect: {id: originator}
     }, description, type});
   await addTechnologyToWhereToTryTable(whereToTry, editedTechnology.id);
   return redirect("/home/table");

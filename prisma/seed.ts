@@ -11,7 +11,7 @@ async function seed() {
     // no worries if it doesn't exist yet
   });
 
-  const hashedPassword = await bcrypt.hash("andrejAndStashaIsCool", 10);
+  const hashedPassword = await bcrypt.hash("123456789", 10);
 
   const user = await prisma.user.create({
     data: {
@@ -28,47 +28,83 @@ async function seed() {
     {
       id: "1",
       email: "zdravko.nikolovski@netcetera.com",
-      password: "hiosadhasc"
+      password: {
+        create: {
+          hash: hashedPassword,
+        },
+      },
     },
     {
       id: "2",
       email: "alexander.imfeld@netcetera.com",
-      password: "hiosadhasc"
+      password: {
+        create: {
+          hash: hashedPassword,
+        },
+      },
     },
     {
       id: "3",
       email: "stefan.odendahl@netcetera.com",
-      password: "hiosadhasc"
+      password: {
+        create: {
+          hash: hashedPassword,
+        },
+      },
     },
     {
       id: "4",
       email: "peco.stanoev@netcetera.com",
-      password: "hiosadhasc"
+      password: {
+        create: {
+          hash: hashedPassword,
+        },
+      },
     },
     {
       id: "5",
       email: "lars.meijers@netcetera.com",
-      password: "hiosadhasc"
+      password: {
+        create: {
+          hash: hashedPassword,
+        },
+      },
     },
     {
       id: "6",
       email: "philippe.marchall@netcetera.com",
-      password: "hiosadhasc"
+      password: {
+        create: {
+          hash: hashedPassword,
+        },
+      },
     },
     {
       id: "7",
       email: "vladimir.trajkovski@netcetera.com",
-      password: "hiosadhasc"
+      password: {
+        create: {
+          hash: hashedPassword,
+        },
+      },
     },
     {
       id: "8",
       email: "thomas.wimmer@netcetera.com",
-      password: "hiosadhasc"
+      password: {
+        create: {
+          hash: hashedPassword,
+        },
+      },
     },
     {
       id: "9",
       email: "adreas.dejung@netcetera.com",
-      password: "hiosadhasc"
+      password: {
+        create: {
+          hash: hashedPassword,
+        },
+      },
     },
   ]
 
