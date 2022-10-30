@@ -4,16 +4,26 @@ import {Form, Link, useActionData} from "@remix-run/react";
 import {ActionFunction} from "@remix-run/server-runtime";
 import {getUserId} from "~/session.server";
 import {addTechnology, addTechnologyToWhereToTryTable} from "~/models/technology.server";
-import {redirect} from "@remix-run/node";
+import {json, redirect} from "@remix-run/node";
 import {prisma} from "~/db.server";
 
 const inputClassName = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ';
+
+type ActionData =
+  | {
+  name: null | string;
+  linkToTechnology: null | string;
+  currentViabilityLevel: null | string;
+  description: null | string;
+}
+  | undefined;
+
 
 export const action: ActionFunction = async ({request}) => {
   const formData = await request.formData();
 
   const name = formData.get("name");
-  const linkToTechnology = formData.get("link");
+  const linkToTechnology = formData.get("linkToTechnology");
   const currentViabilityLevel = formData.get("currentViabilityLevel");
   const description = formData.get("description");
   const whereToTry = formData.getAll("whereToTry");
@@ -21,6 +31,20 @@ export const action: ActionFunction = async ({request}) => {
 
   const userId = await getUserId(request);
   const user = await prisma.user.findUnique({where: {id: userId}});
+
+  const errors: ActionData = {
+    name: name ? null : "Technology name is required",
+    linkToTechnology: linkToTechnology ? null : "Link is required",
+    currentViabilityLevel: currentViabilityLevel ? null : "Current viability level is required",
+    description: description ? null : "Description is required",
+  };
+  const hasErrors = Object.values(errors).some(
+    (errorMessage) => errorMessage
+  );
+  if (hasErrors) {
+    return json<ActionData>(errors);
+  }
+
   // @ts-ignore
   const newTechnology = await addTechnology({name, currentViabilityLevel, linkToTechnology, enteredBy: {
     connect: {id: userId}
@@ -31,7 +55,7 @@ export const action: ActionFunction = async ({request}) => {
 };
 
 export default function AddForm() {
-
+  const errors = useActionData();
   // @ts-ignore
   return (
     <div className="w-full max-w-xs">
@@ -42,6 +66,9 @@ export default function AddForm() {
           <p>
             <label className="lock text-gray-700 text-sm font-bold mb-2">
               Technology:{" "}
+              {errors?.name ? (
+                <em className="text-red-600">{errors.name}</em>
+              ) : null}
               <input
                 type="text"
                 name="name"
@@ -52,9 +79,12 @@ export default function AddForm() {
           <p>
             <label className="lock text-gray-700 text-sm font-bold mb-2">
               Link:{" "}
+              {errors?.linkToTechnology ? (
+                <em className="text-red-600">{errors.linkToTechnology}</em>
+              ) : null}
               <input
                 type="text"
-                name="link"
+                name="linkToTechnology"
                 className={inputClassName}
               />
             </label>
@@ -62,6 +92,9 @@ export default function AddForm() {
           <p>
             <label className="lock text-gray-700 text-sm font-bold mb-2">
               Reasons:{" "}
+              {errors?.description ? (
+                <em className="text-red-600">{errors.description}</em>
+              ) : null}
               <input
                 type="text"
                 name="description"

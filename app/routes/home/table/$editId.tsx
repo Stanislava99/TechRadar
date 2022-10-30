@@ -9,18 +9,41 @@ import {prisma} from "~/db.server";
 
 const inputClassName = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ';
 
+type ActionData =
+  | {
+  name: null | string;
+  linkToTechnology: null | string;
+  currentViabilityLevel: null | string;
+  description: null | string;
+}
+  | undefined;
+
 export const action: ActionFunction = async ({request}) => {
   const formData = await request.formData();
   const name = formData.get("name");
   const id = formData.get("id");
   const currentViabilityLevel = formData.get("currentViabilityLevel");
-  const linkToTechnology = formData.get("link");
+  const linkToTechnology = formData.get("linkToTechnology");
   const description = formData.get("description");
   const whereToTry = formData.getAll("whereToTry");
   const type = formData.get("type");
 
   const userId = await getUserId(request);
   const user = await prisma.user.findUnique({where: {id: userId}});
+
+  const errors: ActionData = {
+    name: name ? null : "Technology name is required",
+    linkToTechnology: linkToTechnology ? null : "Link is required",
+    currentViabilityLevel: currentViabilityLevel ? null : "Current viability level is required",
+    description: description ? null : "Description is required",
+  };
+  const hasErrors = Object.values(errors).some(
+    (errorMessage) => errorMessage
+  );
+  if (hasErrors) {
+    return json<ActionData>(errors);
+  }
+
   // @ts-ignore
   const editedTechnology = await editTechnology({id, currentViabilityLevel, name, linkToTechnology, enteredBy: {
       connect: {id: userId}
@@ -46,11 +69,13 @@ export default function AddForm() {
     setTechnologyName(technology.name)
   }, [technology.id, technology.name]);
 
+  const errors = useActionData();
+
   // @ts-ignore
   return (
     <div className="w-full max-w-xs">
       <div className="overflow-x-auto relative shadow-md sm:rounded-lg py-5 px-7 font-bold text-xs text-center text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400 mt-12 mb-1">
-        <p>Add new technology</p>
+        <p>Edit technology</p>
       </div>
       <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="post">
         <p>
@@ -63,6 +88,9 @@ export default function AddForm() {
               value={technology.id}
             />
             Technology:{" "}
+            {errors?.name ? (
+              <em className="text-red-600">{errors.name}</em>
+            ) : null}
             <input
               type="text"
               name="name"
@@ -75,9 +103,12 @@ export default function AddForm() {
         <p>
           <label className="lock text-gray-700 text-sm font-bold mb-2">
             Link:{" "}
+            {errors?.linkToTechnology ? (
+              <em className="text-red-600">{errors.linkToTechnology}</em>
+            ) : null}
             <input
               type="text"
-              name="link"
+              name="linkToTechnology"
               className={inputClassName}
               value={technology.linkToTechnology}
             />
@@ -86,6 +117,9 @@ export default function AddForm() {
         <p>
           <label className="lock text-gray-700 text-sm font-bold mb-2">
             Reasons:{" "}
+            {errors?.description ? (
+              <em className="text-red-600">{errors.description}</em>
+            ) : null}
             <input
               type="text"
               name="description"
