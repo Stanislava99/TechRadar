@@ -14,6 +14,7 @@ export const action: ActionFunction = async ({request}) => {
 
   const name = formData.get("name");
   const linkToTechnology = formData.get("link");
+  const currentViabilityLevel = formData.get("currentViabilityLevel");
   const description = formData.get("description");
   const whereToTry = formData.getAll("whereToTry");
 
@@ -21,7 +22,7 @@ export const action: ActionFunction = async ({request}) => {
   const user = await prisma.user.findUnique({where: {id: userId}});
   const type = "LANGUAGES";
   // @ts-ignore
-  const newTechnology = await addTechnology({name, linkToTechnology, enteredBy: {
+  const newTechnology = await addTechnology({name, currentViabilityLevel, linkToTechnology, enteredBy: {
     connect: {id: userId}
     }, description, type});
   await addTechnologyToWhereToTryTable(whereToTry, newTechnology.id);
@@ -96,11 +97,13 @@ export default function AddForm() {
               <div className="relative">
                 <select
                   className="block appearance-none w-full bg-gray-200 border border-gray-200 font-small text-gray-600 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="type">
-                  <option>Adopt</option>
-                  <option>Trial</option>
-                  <option>Assess</option>
-                  <option>Hold</option>
+                  id="type"
+                  name="currentViabilityLevel"
+                >
+                  <option>ADOPT</option>
+                  <option>TRIAL</option>
+                  <option>ASSESS</option>
+                  <option>HOLD</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
