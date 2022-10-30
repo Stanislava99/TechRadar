@@ -10,7 +10,7 @@ export default function Index() {
       <div className="relative sm:pb-16 sm:pt-8">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div className="relative px-4 pt-16 pb-8 sm:px-6 sm:pt-24 sm:pb-14 lg:px-8 lg:pb-20 lg:pt-32">
-              <img src="/logo.png" alt="tech radar logo here" />
+              <img src="/logo.png" alt="tech radar logo here"/>
               <p style={{color: "black"}} className="mx-auto mt-6 max-w-lg text-center text-xl text-neutral-400 sm:max-w-3xl">
                 Track latest technology trends.
               </p>

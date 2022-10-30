@@ -35,6 +35,9 @@ export default function AddForm() {
   // @ts-ignore
   return (
     <div className="w-full max-w-xs">
+      <div className="overflow-x-auto relative shadow-md sm:rounded-lg py-5 px-7 font-bold text-xs text-center text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400 mt-12 mb-1">
+        <p>Add new technology</p>
+      </div>
         <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="post">
           <p>
             <label className="lock text-gray-700 text-sm font-bold mb-2">
