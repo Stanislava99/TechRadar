@@ -1,8 +1,9 @@
 // @flow
 import * as React from 'react';
-import {getTechnologies, getWhereToTry} from "~/models/technology.server";
-import {json, redirect} from "@remix-run/node";
-import {Link, Outlet, useLoaderData, useNavigate} from "@remix-run/react";
+import {getTechnologies} from "~/models/technology.server";
+import {json} from "@remix-run/node";
+import {Link, Outlet, useLoaderData} from "@remix-run/react";
+import moment from "moment";
 
 type LoaderData = {
   technologies: Awaited<ReturnType<any>>,
@@ -55,7 +56,7 @@ export default function Table() {
               {technologies.map((technology) => (
                 <tr key={technology.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                   <th scope="row" className="py-2 px-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {technology.entryDate}
+                    {moment(technology.entryDate).format("DD-MM-YYYY")}
                   </th>
                   <td className="py-4 px-6 text-center text-blue-600 text-base tex">
                     <a href={technology.linkToTechnology}>
