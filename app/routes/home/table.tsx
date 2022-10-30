@@ -20,7 +20,7 @@ export default function Table() {
   // @ts-ignore
   return (
     <div>
-      <div className="m-12 ">
+      <div className="m-10 ">
         <h2 className="text-5xl"> Radar Table</h2>
         <p className="underline underline-offset- decoration-sky-500">Take a look at the trending technologies </p>
       </div>
@@ -78,18 +78,26 @@ export default function Table() {
                           </div>
                         )
                       }
-                      else {
+                      else if ("INTERNS" == where.toString()) {
                         const intents = "Inters"
                         return (
-                          <div className="border-solid border-2 border-color: rgb(234 179 8) bg-blue-100 text-center">
+                          <div className="border-solid border-2 border-color: rgb(234 179 8) bg-blue-100 text-center mb-2">
                             <p>{intents}</p>
+                          </div>
+                        )
+                      }
+                      else {
+                        const project = "Project"
+                        return (
+                          <div className="border-solid border-2 bg-rose-100	 bg-blue-100 text-center">
+                            <p>{project}</p>
                           </div>
                         )
                       }
                     })}
                   </td>
                   <td className="py-4 px-6">
-                    <Link to={technology.id} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
+                    <Link to={technology.id} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> <br/>
                   </td>
                 </tr>
               )) }
