@@ -31,7 +31,8 @@ Remix - full stack web framework
   ```sh
   npm run dev
   ```
-![](../../../Desktop/Screenshot 2022-10-31 at 22.46.40.png)
+![](./public/radar.png)
+
 This starts your app in development mode, rebuilding assets on file changes.
 
 The database seed script creates a users with some data you can use to get started:
